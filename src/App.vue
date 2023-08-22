@@ -1,4 +1,19 @@
 <template>
-  <div class="bg-red">hello</div>
+  <!-- Header component -->
+  <Header />
 </template>
-<script></script>
+
+<script>
+import Header from "./Components/Header.vue";
+export default {
+  name: "App",
+  components: {
+    Header,
+  },
+  data() {
+    return {
+      drawer: false,
+    };
+  },
+};
+</script>
