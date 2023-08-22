@@ -1,4 +1,4 @@
 <template>
-  <div class="bg-yellow-300">hello</div>
+  <div class="bg-red">hello</div>
 </template>
 <script></script>
