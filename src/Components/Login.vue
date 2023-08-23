@@ -2,7 +2,7 @@
   <div class="q-pa-xl text-center">
     <q-form @submit="login">
       <q-input
-        v-model="email"
+        v-model="login_form.email"
         label="Email"
         type="email"
         outlined
@@ -11,24 +11,21 @@
       />
       <q-input
         class="q-mt-sm"
-        v-model="password"
+        v-model="login_form.password"
         label="Password"
         type="password"
         outlined
         dense
       />
-      <q-btn
-        class="q-mt-sm"
-        type="submit"
-        color="dark"
-        label="Login"
-        :loading="loading"
-      />
+      <q-btn class="q-mt-sm" type="submit" color="dark" label="Login" />
     </q-form>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { useStore } from "vuex";
+
 export default {
   data() {
     return {
@@ -38,41 +35,23 @@ export default {
       isValid: false,
     };
   },
-  computed: {
-    isValidForm() {
-      return this.email !== "" && this.password !== "";
-    },
-  },
-  methods: {
-    async login() {
-      if (this.isValidForm) {
-        this.loading = true;
+  setup() {
+    const login_form = ref({});
+    const store = useStore();
 
-        if (!this.isValidForm) {
-          console.log("you can not logined");
-        } else {
-          this.$router.push({ name: "Home" }); // Assuming "Register" is the name of your home route
-          console.log(this.email);
-          console.log(this.password);
-        }
-        try {
-          await new Promise((resolve) => setTimeout(resolve, 1500));
+    const login = () => {
+      store.dispatch("login", login_form.value);
+    };
 
-          this.email = "";
-          this.password = "";
-          this.loading = false;
-        } catch (error) {
-          // Display an error message
-          this.$q.notify({
-            color: "negative",
-            message: "Login failed. Please check your credentials.",
-          });
-
-          // Reset loading state
-          this.loading = false;
-        }
-      }
-    },
+    return {
+      login_form,
+      login,
+    };
   },
 };
 </script>
+
+<!-- Add the following import statements -->
+<style>
+/* Your component's style definitions go here */
+</style>

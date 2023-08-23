@@ -1,10 +1,16 @@
 <template>
   <div class="q-pa-xl text-center">
-    <q-form @submit="register">
-      <q-input v-model="name" label="Name" outlined dense required />
+    <q-form @submit.prevent="register">
+      <q-input
+        v-model="register_form.name"
+        label="Name"
+        outlined
+        dense
+        required
+      />
       <q-input
         class="q-mt-sm"
-        v-model="email"
+        v-model="register_form.email"
         label="Email"
         type="email"
         outlined
@@ -13,89 +19,43 @@
       />
       <q-input
         class="q-mt-sm"
-        v-model="password"
+        v-model="register_form.password"
         label="Password"
         type="password"
         outlined
         dense
         required
       />
-      <q-input
+      <!-- <q-input
         class="q-mt-sm"
-        v-model="confirmPassword"
         label="Confirm Password"
         type="password"
         outlined
         dense
         required
-      />
-      <q-btn
-        class="q-mt-sm"
-        type="submit"
-        color="dark"
-        label="Register"
-        :loading="loading"
-        :disable="!isValidForm"
-      />
+      /> -->
+      <q-btn class="q-mt-sm" type="submit" color="dark" label="Register" />
     </q-form>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { useStore } from "vuex";
+
 export default {
-  data() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      loading: false,
+  setup() {
+    const register_form = ref({});
+    const store = useStore();
+
+    const register = () => {
+      store.dispatch("register", register_form.value);
     };
-  },
-  computed: {
-    isValidForm() {
-      return (
-        this.name !== "" &&
-        this.email !== "" &&
-        this.password !== "" &&
-        this.confirmPassword !== ""
-      );
-    },
-  },
-  methods: {
-    async register() {
-      if (this.isValidForm) {
-        this.loading = true;
 
-        try {
-          // Simulate registration process here
-          // Replace this with your actual registration logic
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-
-          // Display a success message
-          this.$q.notify({
-            color: "positive",
-            message: "Registration successful!",
-          });
-
-          // Reset form and loading state
-          this.name = "";
-          this.email = "";
-          this.password = "";
-          this.confirmPassword = "";
-          this.loading = false;
-        } catch (error) {
-          // Display an error message
-          this.$q.notify({
-            color: "negative",
-            message: "Registration failed. Please try again.",
-          });
-
-          // Reset loading state
-          this.loading = false;
-        }
-      }
-    },
+    return {
+      register_form,
+      register,
+    };
   },
 };
 </script>
