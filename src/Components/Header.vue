@@ -1,29 +1,41 @@
 <template>
-  <q-layout view="hHh Lpr lFf">
-    <q-header class="bg-dark" elevated>
-      <q-toolbar>
-        <q-btn flat round dense icon="menu" @click="drawer = !drawer" />
-        <q-toolbar-title>My Navbar</q-toolbar-title>
-        <q-space />
+  <div class="bg-grey-3">
+    <q-toolbar>
+      <!-- <q-btn flat round dense icon="menu" @click="drawer = !drawer" /> -->
+      <q-toolbar-title>CRUD Website</q-toolbar-title>
+      <q-space />
 
-        <!-- Home Button -->
-        <q-btn flat label="Home" @click="$router.push('/')">
-          <q-icon class="q-mx-sm q-mb-xs" name="home" />
-        </q-btn>
+      <!-- Home Button -->
+      <q-btn v-if="!isHomeRoute" flat label="Home" @click="$router.push('/')">
+        <q-icon class="q-mx-sm q-mb-xs" name="home" />
+      </q-btn>
 
-        <!-- Login Button -->
-        <q-btn flat label="Login" @click="$router.push('/login')">
-          <q-icon class="q-mx-sm q-mb-xs" name="account_circle" />
-        </q-btn>
+      <!-- Login Button (conditionally rendered) -->
+      <q-btn
+        v-if="!isHomeRoute"
+        flat
+        label="Login"
+        @click="$router.push('/login')"
+      >
+        <q-icon class="q-mx-sm q-mb-xs" name="account_circle" />
+      </q-btn>
 
-        <!-- Sign Up Button -->
-        <q-btn flat label="Sign Up" @click="$router.push('/signup')">
-          <q-icon class="q-mx-sm q-mb-xs" name="person_add" />
-        </q-btn>
-      </q-toolbar>
-    </q-header>
-    <!-- ... rest of the layout code ... -->
-  </q-layout>
+      <!-- Sign Up Button -->
+      <q-btn v-if="!isHomeRoute" flat label="Sign Up" @click="$router.push('/register')">
+        <q-icon class="q-mx-sm q-mb-xs" name="person_add" />
+      </q-btn>
+
+       <!-- Logout Button (conditionally rendered) -->
+       <q-btn
+        v-if="isHomeRoute"
+        flat
+        label="Logout"
+        @click="logout"
+      >
+        <q-icon class="q-mx-sm q-mb-xs" name="logout" />
+      </q-btn>
+    </q-toolbar>
+  </div>
 </template>
 
 <script>
@@ -32,6 +44,11 @@ export default {
     return {
       drawer: false,
     };
+  },
+  computed: {
+    isHomeRoute() {
+      return this.$route.path === "/";
+    },
   },
 };
 </script>
