@@ -21,17 +21,17 @@
       </q-btn>
 
       <!-- Sign Up Button -->
-      <q-btn v-if="!isHomeRoute" flat label="Sign Up" @click="$router.push('/register')">
+      <q-btn
+        v-if="!isHomeRoute"
+        flat
+        label="Sign Up"
+        @click="$router.push('/register')"
+      >
         <q-icon class="q-mx-sm q-mb-xs" name="person_add" />
       </q-btn>
 
-       <!-- Logout Button (conditionally rendered) -->
-       <q-btn
-        v-if="isHomeRoute"
-        flat
-        label="Logout"
-        @click="logout"
-      >
+      <!-- Logout Button (conditionally rendered) -->
+      <q-btn v-if="isHomeRoute" flat label="Logout" @click="logout">
         <q-icon class="q-mx-sm q-mb-xs" name="logout" />
       </q-btn>
     </q-toolbar>
@@ -48,6 +48,15 @@ export default {
   computed: {
     isHomeRoute() {
       return this.$route.path === "/";
+    },
+  },
+  methods: {
+    logout() {
+      console.log("Logout button clicked"); // Check if the method is triggered
+      // Perform logout logic here
+      // ...
+      // For testing, you can simply navigate to the home page
+      this.$router.push("/login");
     },
   },
 };
